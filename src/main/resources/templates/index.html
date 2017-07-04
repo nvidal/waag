@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="es">
+
+<title>Waag</title>
+
+<!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+	<div class="container">
+		<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+		<div class="welcome">
+			<span sec:authorize="isAuthenticated()">Welcome <span
+				sec:authentication="name"></span></span>
+		</div>
+	</div>
+</body>
+</html>

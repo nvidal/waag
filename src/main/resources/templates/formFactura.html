@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Spring Framework Guru</title>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+    
+    <button th:if="${modo} == alta" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#modalCargar">
+			<span class="glyphicon glyphicon-file" aria-hidden="true"></span>Cargar factura</button>
+
+		<!-- Modal -->
+		<div id="modalCargar" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Cargar factura desde archivo</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" th:object="${factura}"
+							th:action="@{/factura}" method="post">
+							
+							<div class="row">
+								<button type="submit" class="btn btn-success">Confirmar</button>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+		<div>
+        <form class="form-horizontal" th:object="${factura}" th:action="@{/factura}" method="post">
+            <!-- div class="input-group">
+			 	<span class="input-group-addon" id="factura">Factura</span>
+				<input type="text" class="form-control" th:field="*{factura}"/>
+			</div-->
+			<div class="form-group">
+			  <label for="selCliente">Cliente:</label>
+			  <select class="form-control" id="selCliente" th:field="*{cliente.idcliente}">
+			    <option th:each="cli :${clientes}" th:value="${cli.idcliente}" th:text="${cli.exportador}">cliente</option>
+			  </select>
+			</div>
+			<div class="form-group">
+                <label class="col-sm-2 control-label">Fecha:</label>
+                <div class="col-sm-10">
+                    <input type="date" class="datepicker" th:field="*{fecha}"/>
+                </div>
+            </div>
+            <div class="row">
+                <button th:if="${modo} == alta" type="submit" class="btn btn-default">Confirmar</button>
+                <button th:if="${modo} == edicion" type="submit" class="btn btn-default">Grabar</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>

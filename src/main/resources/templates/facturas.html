@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="en">
+
+    <title>Facturas</title>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+
+
+        <div class="col-sm-10">
+        	<h2>Listado de facturas</h2>
+        </div>
+        <table class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Factura</th>
+                <th>Fecha</th>
+                <th>Descripcion</th>
+            </tr>
+            <tr th:each="factura : ${facturas}">
+                <td><a th:href="${'/factura/' + factura.id}" th:text="${factura.id}"></a></td>
+                <td th:text="${factura.factura}">factura</td>
+                <td th:text="${factura.fecha} ? ${#dates.format(factura.fecha, 'dd-MM-yyyy')}">fecha</td>
+                <td th:text="${factura.descripcion} ? ${factura.descripcion.descripcion}">descripcion</td>
+            </tr>
+        </table>
+        <div class="row">
+	        <div th:if="${facturas.totalPages != 1}" class="form-group col-md-11 pagination-centered text-center">
+				<ul class="pagination">
+					<li th:class="${facturas.number == 0} ? disabled">
+						<a class="pageLink" th:href="@{/facturas/1}">&laquo;</a>
+					</li>
+					<li th:class="${facturas.number == 0} ? disabled">
+						<a class="pageLink" th:href="@{'/facturas/'+${facturas.number}}">&larr;</a>
+					</li>
+					<li th:class="${facturas.number == (page - 1)} ? 'active pointer-disabled'"
+						th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+						<a class="pageLink" th:href="@{'/facturas/'+${page}}" th:text="${page}"></a>
+					</li>
+					<li th:class="${facturas.number + 1 == facturas.totalPages} ? disabled">
+						<a class="pageLink" th:href="@{'/facturas/'+${facturas.number + 2}}">&rarr;</a>
+					</li>
+					<li th:class="${facturas.number + 1 == facturas.totalPages} ? disabled">
+						<a class="pageLink" th:href="@{'/facturas/'+${facturas.totalPages}}">&raquo;</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+    </div>
+
+</body>
+</html>

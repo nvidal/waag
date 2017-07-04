@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="en">
+
+<title>Bultos</title>
+
+<!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+	<div class="container">
+		<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+
+
+		<button type="button" class="btn btn-success btn-lg"
+			data-toggle="modal" data-target="#modalAgregar">Agregar</button>
+
+		<!-- Modal Nuevo-->
+		<div id="modalAgregar" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Agregar cliente</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" th:object="${cliente}"
+							th:action="@{/cliente}" method="post">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Exportador:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" th:field="*{exportador}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Direccion:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" th:field="*{direccion}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">RUC:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" th:field="*{ruc}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Telefono:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" th:field="*{tel}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Fax:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" th:field="*{fax}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Nro Mercantil:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" th:field="*{nromercantil}" />
+								</div>
+							</div>
+							<div class="row">
+								<button type="submit" class="btn btn-success">Confirmar</button>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Modal Ver/Editar-->
+		<div id="modalEditar" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Editar bultos</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" th:object="${cliente}"
+							th:action="@{/bulto}" method="post">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Exportador:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" th:field="*{exportador}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Direccion:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" th:field="*{direccion}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">RUC:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" th:field="*{ruc}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Telefono:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" th:field="*{tel}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Fax:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" th:field="*{fax}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Nro Mercantil:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" th:field="*{nromercantil}" />
+								</div>
+							</div>
+							<div class="row">
+								<button type="submit" class="btn btn-success">Confirmar</button>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-10">
+			<h2>Listado de bultos</h2>
+		</div>
+		<table class="table table-striped">
+			<tr>
+				<th>Id</th>
+				<th>Exportador</th>
+				<th>Direccion</th>
+				<th>RUC</th>
+				<th>Telefono</th>
+				<th sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">Ver</th>
+				<th sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
+				<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+			</tr>
+			<tr th:each="cliente : ${clientes}">
+				<td th:text="${cliente.idcliente}"><a href="/cliente/${cliente.idcliente}">Id</a></td>
+				<td th:text="${cliente.exportador}">Exportador</td>
+				<td th:text="${cliente.direccion}">Direccion</td>
+				<td th:text="${cliente.ruc}">RUC</td>
+				<td th:text="${cliente.tel}">Telefono</td>
+				<td sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a
+					th:href="${'/cliente/' + cliente.idcliente}">Ver</a></td>
+				<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+					data-toggle="modal" data-target="#modalEditar">Editar</a></td>
+				<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+					th:href="${'/cliente/delete/' + cliente.idcliente}">Eliminar</a></td>
+			</tr>
+		</table>
+
+	</div>
+
+</body>
+</html>

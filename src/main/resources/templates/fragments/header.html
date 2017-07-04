@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="en">
+    <link rel="stylesheet" type="text/css" href="../static/css/guru.css" />
+</head>
+<body>
+
+
+<div class="container">
+    <div th:fragment="header">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#" th:href="@{/}">Home</a>
+                    <ul class="nav navbar-nav">
+                        <li><a href="#" th:href="@{/facturas/1}">Facturas</a></li>
+		                <li><a href="#" th:href="@{/factura/new}" sec:authorize="hasRole('ROLE_ADMIN')">Ingresar Factura</a></li>
+		                <li class="dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
+				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mantenimientos<span class="caret"></span></a>
+				          <ul class="dropdown-menu">
+				            <li><a href="#" th:href="@{/bultos}">Bultos</a></li>
+				            <li><a href="#" th:href="@{/buques}">Buques</a></li>
+				            <li><a href="#" th:href="@{/clientes}">Clientes</a></li>
+				            <li><a href="#" th:href="@{/comisionistas}">Comisionistas</a></li>
+				            <li><a href="#" th:href="@{/destinos}">Destinos</a></li>
+				          </ul>
+				        </li>
+		                <li><a href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Ingresar</a></li>
+		                <li><!-- a href="#" th:href="@{/logout}" sec:authorize="isAuthenticated()">Cerrar Sesión</a-->
+		                	<form th:action="@{/logout}" method="POST">
+		                		<button type="submit" >logout!!</button> 
+		                	</form>
+		                </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    </div>
+</div>
+
+</body>
+</html>
