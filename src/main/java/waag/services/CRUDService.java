@@ -7,7 +7,9 @@ import waag.domain.entidades.Bulto;
 import waag.domain.entidades.Buque;
 import waag.domain.entidades.Cliente;
 import waag.domain.entidades.Comisionista;
-import waag.domain.entidades.Destino;;
+import waag.domain.entidades.Compvend;
+import waag.domain.entidades.Destino;
+import waag.domain.entidades.Operacion;;
 
 public interface CRUDService {
 
@@ -59,4 +61,16 @@ public interface CRUDService {
 	Comisionista saveComisionista(Comisionista comisionista);
 
 	void deleteComisionista(Integer id);
+	
+	// +++ CLIENTES +++ //
+	Iterable<Compvend> listAllCompvends();
+	Compvend getCompvendById(Integer id);
+	Compvend saveCompvend(Compvend compvend);
+	void deleteCompvend(Integer id);
+	
+	// +++ OPERACIONES +++ //
+	Iterable<Operacion> listAllOperaciones();
+	Operacion getOperacionById(Integer id);
+	Operacion saveOperacion(Operacion operacion);
+	void deleteOperacion(Integer id);
 }

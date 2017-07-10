@@ -7,14 +7,7 @@
 <body>
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
-<div th:if="${param.error}">
-    <label style="color:red">Usuario y contraseña incorrectos.</label>
-</div>
-<div th:if="${param.logout}">
-    <label>
-        Has salido.
-    </label>
-</div>
+
 
 <form th:action="@{/logincheck}" method="POST">
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

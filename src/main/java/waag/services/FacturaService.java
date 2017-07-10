@@ -3,16 +3,17 @@ package waag.services;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import waag.domain.entidades.Facturas;
+import waag.domain.model.FacturaModel;
+import waag.exceptions.SaveWaagException;
 
 public interface FacturaService {
-	Iterable<Facturas> listAllFacturas();
+	Iterable<FacturaModel> listAllFacturas();
 
-	Facturas getFacturaById(Integer id);
+	FacturaModel getFacturaById(Integer id);
 
-	Facturas saveFactura(Facturas factura);
+	FacturaModel saveFactura(FacturaModel factura) throws SaveWaagException;
 
-	void deleteFactura(Integer id);
+	boolean deleteFactura(Integer id);
 
-	Page<Facturas> getFacturasByPages(Pageable pageable);
+	Page<FacturaModel> getFacturasByPages(Pageable pageable);
 }

@@ -2,8 +2,12 @@ package waag.domain.entidades;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * The persistent class for the facturas_aux database table.
@@ -11,8 +15,8 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "facturas_aux")
-@NamedQuery(name = "Facturas.findAll", query = "SELECT f FROM Facturas f")
-public class Facturas implements Serializable {
+@NamedQuery(name = "Facturas.findAll", query = "SELECT f FROM Factura f")
+public class Factura implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -24,9 +28,13 @@ public class Facturas implements Serializable {
 
 	private Timestamp eta;
 
-	private String factura;
+	@NotNull
+	@Column(name="factura", nullable=false)
+	private String facturaNro;
 
-	private Timestamp fecha;
+	@NotNull
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date fecha;
 
 	private String formapago;
 
@@ -109,7 +117,7 @@ public class Facturas implements Serializable {
 
 	private Float valorfob;
 
-	public Facturas() {
+	public Factura() {
 	}
 
 	public Integer getId() {
@@ -136,19 +144,19 @@ public class Facturas implements Serializable {
 		this.eta = eta;
 	}
 
-	public String getFactura() {
-		return this.factura;
+	public String getFacturaNro() {
+		return this.facturaNro;
 	}
 
-	public void setFactura(String factura) {
-		this.factura = factura;
+	public void setFacturaNro(String factura) {
+		this.facturaNro = factura;
 	}
 
-	public Timestamp getFecha() {
+	public Date getFecha() {
 		return this.fecha;
 	}
 
-	public void setFecha(Timestamp fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 

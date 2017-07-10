@@ -23,7 +23,7 @@
             </tr>
             <tr th:each="factura : ${facturas}">
                 <td><a th:href="${'/factura/' + factura.id}" th:text="${factura.id}"></a></td>
-                <td th:text="${factura.factura}">factura</td>
+                <td th:text="${factura.facturaNro}">factura</td>
                 <td th:text="${factura.fecha} ? ${#dates.format(factura.fecha, 'dd-MM-yyyy')}">fecha</td>
                 <td th:text="${factura.descripcion} ? ${factura.descripcion.descripcion}">descripcion</td>
             </tr>

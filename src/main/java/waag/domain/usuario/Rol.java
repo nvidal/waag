@@ -28,7 +28,7 @@ public class Rol {
 	@Column(nullable = false)
 	private String rol;
 	
-	
+	public Rol(){}
 
 	public Rol(Usuario usuario, String rol) {
 		super();

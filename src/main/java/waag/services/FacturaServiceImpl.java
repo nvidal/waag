@@ -1,13 +1,20 @@
 package waag.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import waag.domain.entidades.Facturas;
+import waag.components.FacturaConverter;
+import waag.domain.entidades.Factura;
+import waag.domain.model.FacturaModel;
+import waag.exceptions.SaveWaagException;
 import waag.repositories.FacturasRepository;
 
 @Service
@@ -17,31 +24,55 @@ public class FacturaServiceImpl implements FacturaService {
 
 	@Autowired
 	private FacturasRepository facturaRepository;
+	@Autowired
+	private FacturaConverter facturaConverter;
 
 	@Override
-	public Iterable<Facturas> listAllFacturas() {
+	public Iterable<FacturaModel> listAllFacturas() {
 		LOG.info("listAllFacturas");
-		return facturaRepository.findAll();
+		Iterable<Factura> facturas = facturaRepository.findAll();
+		List<FacturaModel> models = new ArrayList<FacturaModel>();
+		for(Factura f : facturas){
+			models.add(facturaConverter.convertFacturaToFacturaModel(f));
+		}
+		return models;
 	}
 
 	@Override
-	public Facturas getFacturaById(Integer id) {
-		return facturaRepository.findOne(id);
+	public FacturaModel getFacturaById(Integer id) {
+		return facturaConverter.convertFacturaToFacturaModel(facturaRepository.findOne(id));
 	}
 
 	@Override
-	public Facturas saveFactura(Facturas factura) {
-		return facturaRepository.save(factura);
+	public FacturaModel saveFactura(FacturaModel model) throws SaveWaagException{
+		Factura factura = null;
+		try{
+			factura = facturaRepository.save(facturaConverter.convertFacturaModelToFactura(model));
+		}catch(ConstraintViolationException ex){
+			LOG.error("Ocurrió un error al grabar: "+ex.getMessage()+ " "+ex.getCause());
+			throw new SaveWaagException("Ya existe una factura con ese Nro Factura: "+ex.getMessage());
+		}
+		catch(Exception ex){
+			LOG.error("Ocurrió un error al grabar: "+ex.getMessage()+ " "+ex.getCause());
+			throw new SaveWaagException("Ocurrió un error al grabar: "+ex.getMessage());
+		}
+		return facturaConverter.convertFacturaToFacturaModel(factura);
 	}
 
 	@Override
-	public void deleteFactura(Integer id) {
+	public boolean deleteFactura(Integer id) {
 		facturaRepository.delete(id);
+		if (facturaRepository.findOne(id)==null)
+			return true;
+		else
+			return false;
 	}
 
 	@Override
-	public Page<Facturas> getFacturasByPages(Pageable pageable) {
+	public Page<FacturaModel> getFacturasByPages(Pageable pageable) {
 		LOG.info("getFacturasByPages");
-		return facturaRepository.findAll(pageable);
+		Page<Factura> facturas = facturaRepository.findAll(pageable);
+		Page<FacturaModel> models = facturas.map(facturaConverter);
+		return models;
 	}
 }

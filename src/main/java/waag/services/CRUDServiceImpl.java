@@ -11,12 +11,16 @@ import waag.domain.entidades.Bulto;
 import waag.domain.entidades.Buque;
 import waag.domain.entidades.Cliente;
 import waag.domain.entidades.Comisionista;
+import waag.domain.entidades.Compvend;
 import waag.domain.entidades.Destino;
+import waag.domain.entidades.Operacion;
 import waag.repositories.BultoRepository;
 import waag.repositories.BuqueRepository;
 import waag.repositories.ClienteRepository;
 import waag.repositories.ComisionistaRepository;
+import waag.repositories.CompvendRepository;
 import waag.repositories.DestinoRepository;
+import waag.repositories.OperacionRepository;
 
 @Service
 public class CRUDServiceImpl implements CRUDService {
@@ -33,6 +37,10 @@ public class CRUDServiceImpl implements CRUDService {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private ComisionistaRepository comisionistaRepository;
+	@Autowired
+	private CompvendRepository compvendRepository;
+	@Autowired
+	private OperacionRepository operacionRepository;
 
 	// @Autowired
 	// public void setDestinoRepository(DestinoRepository repository) {
@@ -169,5 +177,33 @@ public class CRUDServiceImpl implements CRUDService {
 	@Override
 	public void deleteComisionista(Integer id) {
 		comisionistaRepository.delete(id);
+	}
+	
+	// +++ COMPVEND +++
+	public Iterable<Compvend> listAllCompvends() {
+		return compvendRepository.findAll();
+	}
+	public Compvend getCompvendById(Integer id) {
+		return compvendRepository.findOne(id);
+	}
+	public Compvend saveCompvend(Compvend compvend) {
+		return compvendRepository.save(compvend);
+	}
+	public void deleteCompvend(Integer id) {
+		compvendRepository.delete(id);
+	}
+	
+	// +++ OPERACION +++
+	public Iterable<Operacion> listAllOperaciones() {
+		return operacionRepository.findAll();
+	}
+	public Operacion getOperacionById(Integer id) {
+		return operacionRepository.findOne(id);
+	}
+	public Operacion saveOperacion(Operacion operacion) {
+		return operacionRepository.save(operacion);
+	}
+	public void deleteOperacion(Integer id) {
+		operacionRepository.delete(id);
 	}
 }

@@ -16,7 +16,7 @@ import waag.domain.entidades.Buque;
 import waag.domain.entidades.Cliente;
 import waag.domain.entidades.Comisionista;
 import waag.domain.entidades.Destino;
-import waag.domain.entidades.Facturas;
+import waag.domain.entidades.Factura;
 import waag.services.CRUDService;
 
 @Controller
