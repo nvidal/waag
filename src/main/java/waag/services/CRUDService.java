@@ -15,51 +15,37 @@ public interface CRUDService {
 
 	// +++ DESTINO +++ //
 	Iterable<Destino> listAllDestinos();
-
+	Page<Destino> listAllDestinosByPage(Pageable pageable);
 	Destino getDestinoById(Integer id);
-
 	Destino saveDestino(Destino destino);
-
 	void deleteDestino(Integer id);
 
 	// +++ BUQUE +++ //
 	Iterable<Buque> listAllBuques();
-
 	Page<Buque> listAllBuquesByPage(Pageable pageable);
-
 	Buque getBuqueById(Integer id);
-
 	Buque saveBuque(Buque buque);
-
 	void deleteBuque(Integer id);
 
 	// +++ BULTOS +++ //
 	Iterable<Bulto> listAllBultos();
-
 	Page<Bulto> listAllBultosByPage(Pageable pageable);
-
 	Bulto getBultoById(Integer id);
-
 	Bulto saveBulto(Bulto bulto);
-
 	void deleteBulto(Integer id);
 
 	// +++ CLIENTES +++ //
 	Iterable<Cliente> listAllClientes();
-
+	Page<Cliente> listAllClientesByPage(Pageable pageable);
 	Cliente getClienteById(Integer id);
-
 	Cliente saveCliente(Cliente cliente);
-
 	void deleteCliente(Integer id);
 
 	// +++ COMISIONISTA +++ //
 	Iterable<Comisionista> listAllComisionistas();
-
+	Page<Comisionista> listAllComisionistasByPage(Pageable pageable);
 	Comisionista getComisionistaById(Integer id);
-
 	Comisionista saveComisionista(Comisionista comisionista);
-
 	void deleteComisionista(Integer id);
 	
 	// +++ CLIENTES +++ //

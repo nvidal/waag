@@ -3,7 +3,7 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head lang="en">
 
-<title>Bultos</title>
+<title>Clientes</title>
 
 <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
@@ -18,6 +18,7 @@
 		<!-- Modal Nuevo-->
 		<div id="modalAgregar" class="modal fade" role="dialog">
 			<div class="modal-dialog">
+			
 				<!-- Modal content-->
 				<div class="modal-content">
 					<div class="modal-header">
@@ -28,48 +29,48 @@
 						<form class="form-horizontal" th:object="${cliente}"
 							th:action="@{/cliente}" method="post">
 							<div class="form-group">
-								<label class="col-sm-2 control-label">Exportador:</label>
-								<div class="col-sm-10">
+								<label class="col-sm-3 control-label">Exportador:</label>
+								<div class="col-sm-9">
 									<input type="text" class="form-control" th:field="*{exportador}" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">Direccion:</label>
-								<div class="col-sm-10">
+								<label class="col-sm-3 control-label">Direccion:</label>
+								<div class="col-sm-9">
 									<input type="text" class="form-control" th:field="*{direccion}" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">RUC:</label>
-								<div class="col-sm-10">
+								<label class="col-sm-3 control-label">RUC:</label>
+								<div class="col-sm-9">
 									<input type="text" class="form-control" th:field="*{ruc}" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">Telefono:</label>
-								<div class="col-sm-10">
+								<label class="col-sm-3 control-label">Telefono:</label>
+								<div class="col-sm-9">
 									<input type="text" class="form-control" th:field="*{tel}" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">Fax:</label>
-								<div class="col-sm-10">
+								<label class="col-sm-3 control-label">Fax:</label>
+								<div class="col-sm-9">
 									<input type="text" class="form-control" th:field="*{fax}" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">Nro Mercantil:</label>
-								<div class="col-sm-10">
+								<label class="col-sm-3 control-label">Nro Mercantil:</label>
+								<div class="col-sm-9">
 									<input type="text" class="form-control" th:field="*{nromercantil}" />
 								</div>
 							</div>
-							<div class="row">
-								<button type="submit" class="btn btn-success">Confirmar</button>
+							<div class="btn-group">
+								<button type="submit" class="btn btn-success pull-right">Confirmar</button>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 					</div>
 				</div>
 			</div>
@@ -137,13 +138,12 @@
 		</div>
 
 		<div class="col-sm-10">
-			<h2>Listado de bultos</h2>
+			<h2>Listado de clientes</h2>
 		</div>
 		<table class="table table-striped">
 			<tr>
 				<th>Id</th>
 				<th>Exportador</th>
-				<th>Direccion</th>
 				<th>RUC</th>
 				<th>Telefono</th>
 				<th sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">Ver</th>
@@ -153,7 +153,6 @@
 			<tr th:each="cliente : ${clientes}">
 				<td th:text="${cliente.idcliente}"><a href="/cliente/${cliente.idcliente}">Id</a></td>
 				<td th:text="${cliente.exportador}">Exportador</td>
-				<td th:text="${cliente.direccion}">Direccion</td>
 				<td th:text="${cliente.ruc}">RUC</td>
 				<td th:text="${cliente.tel}">Telefono</td>
 				<td sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a
@@ -164,6 +163,28 @@
 					th:href="${'/cliente/delete/' + cliente.idcliente}">Eliminar</a></td>
 			</tr>
 		</table>
+		<div class="row">
+	        <div th:if="${clientes.totalPages != 1}" class="form-group col-md-11 pagination-centered text-center">
+				<ul class="pagination">
+					<li th:class="${clientes.number == 0} ? disabled">
+						<a class="pageLink" th:href="@{/clientes/1}">&laquo;</a>
+					</li>
+					<li th:class="${clientes.number == 0} ? disabled">
+						<a class="pageLink" th:href="@{'/clientes/'+${clientes.number}}">&larr;</a>
+					</li>
+					<li th:class="${clientes.number == (page - 1)} ? 'active pointer-disabled'"
+						th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+						<a class="pageLink" th:href="@{'/clientes/'+${page}}" th:text="${page}"></a>
+					</li>
+					<li th:class="${clientes.number + 1 == clientes.totalPages} ? disabled">
+						<a class="pageLink" th:href="@{'/clientes/'+${clientes.number + 2}}">&rarr;</a>
+					</li>
+					<li th:class="${clientes.number + 1 == clientes.totalPages} ? disabled">
+						<a class="pageLink" th:href="@{'/clientes/'+${clientes.totalPages}}">&raquo;</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 
 	</div>
 

@@ -21,7 +21,7 @@
 								class="icon-bar"></span> <span class="icon-bar"></span> <span
 								class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="#" th:href="@{/}">
+						<a class="navbar-brand" style="padding:5px;" href="#" th:href="@{/}">
 							<img alt="Inicio" th:src="@{../images/logo.png}" />
 						</a>
 					</div>
@@ -38,16 +38,18 @@
 								sec:authorize="hasRole('ROLE_ADMIN')">Ingresar Factura</a></li>
 							<li class="dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown"
-								role="button" aria-haspopup="true" aria-expanded="false">Mantenimientos<span
+								role="button" aria-haspopup="true" aria-expanded="false">Listados<span
 									class="caret"></span></a>
 								<ul class="dropdown-menu">
 									<li><a href="#" th:href="@{/bultos}">Bultos</a></li>
 									<li><a href="#" th:href="@{/buques}">Buques</a></li>
 									<li><a href="#" th:href="@{/clientes}">Clientes</a></li>
-									<li><a href="#" th:href="@{/comisionistas}">Comisionistas</a></li>
 									<li><a href="#" th:href="@{/destinos}">Destinos</a></li>
 								</ul>
 							</li>
+							<li th:class="${activeTab == 'usuarios'}? 'active' : null"><a
+								href="#" th:href="@{/usuarios}"
+								sec:authorize="hasRole('ROLE_ADMIN')">Usuarios</a></li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li><a href="#" th:href="@{/login}"
@@ -57,7 +59,7 @@
 								<form class="navbar-form navbar-right" th:action="@{/logout}"
 									method="POST">
 									<button type="submit" class="btn btn-danger"
-										sec:authorize="isAuthenticated()">Salir</button>
+										sec:authorize="isAuthenticated()">Cerrar sesión</button>
 								</form>
 							</li>
 						</ul>

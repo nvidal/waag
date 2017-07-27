@@ -1,7 +1,5 @@
 package waag.controllers;
 
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
@@ -15,10 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import waag.constants.ViewConstant;
 import waag.controllers.utils.Pager;

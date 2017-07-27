@@ -3,14 +3,12 @@ package waag.domain.usuario;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -24,26 +22,29 @@ public class Usuario {
 	@Column(name = "password", nullable = false, length = 65)
 	private String password;
 
+	private String email;
 	private boolean enable;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario", cascade=CascadeType.PERSIST)
 	private Set<Rol> roles = new HashSet<Rol>();
 
 	public Usuario() {
 	}
 
-	public Usuario(String username, String password, boolean enable, Set<Rol> roles) {
+	public Usuario(String username, String password, String email, boolean enable, Set<Rol> roles) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.email = email;
 		this.enable = enable;
 		this.roles = roles;
 	}
 
-	public Usuario(String username, String password, boolean enable) {
+	public Usuario(String username, String password, String email, boolean enable) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.email = email;
 		this.enable = enable;
 	}
 
@@ -77,6 +78,14 @@ public class Usuario {
 
 	public void setRoles(Set<Rol> roles) {
 		this.roles = roles;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }
