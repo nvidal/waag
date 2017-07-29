@@ -10,9 +10,27 @@
 <body>
 	<div class="container">
 		<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
-		<div class="welcome">
-			<span sec:authorize="isAuthenticated()">Welcome <span
-				sec:authentication="name"></span></span>
+
+		<div class="row col-sm-8 col-sm-offset-2">
+			<div class="well well-lg text-center"><h2 th:text="${#dates.format(#dates.createNow(),'HH:mm dd/MM/YYYY')}"></h2></div>
+			
+			<div class="panel panel-default">
+				<!-- Default panel contents -->
+				<div class="panel-heading text-center"><h3>Ultimas facturas ingresadas</h3></div>
+				<!-- Table -->
+				<table class="table">
+				<tr>
+	                <th>Id</th>
+	                <th>Factura</th>
+	                <th>Fecha</th>
+	            </tr>
+	            <tr th:each="factura : ${facturas}">
+	                <td><a th:href="${'/factura/' + factura.id}" th:text="${factura.id}"></a></td>
+	                <td th:text="${factura.facturaNro}">factura</td>
+	                <td th:text="${factura.fecha} ? ${#dates.format(factura.fecha, 'dd-MM-yyyy')}">fecha</td>
+	            </tr>
+				</table>
+			</div>
 		</div>
 	</div>
 </body>

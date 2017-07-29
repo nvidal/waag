@@ -35,11 +35,20 @@ public class UsuarioController {
 		return "usuarios";
 	}
 	
-//	@RequestMapping("usuario/new")
-//	public String newUsuario(Model model) {
-//		model.addAttribute("usuario", new Usuario());
-//		return "formUsuario";
-//	}
+	@RequestMapping(value = "/usuario/{username}", method = RequestMethod.GET)
+	public String getUsuario(@PathVariable String username, Model model) {
+		try {
+			UsuarioModel usuario = usuarioService.getUsuario(username);
+			model.addAttribute("usuario", usuario);
+			return "usuarios :: modalEdit";
+		} catch (SaveWaagException e) {
+			model.addAttribute("resultado", 0);
+			model.addAttribute("resMsj", e.getMessage());
+			return "redirect:/usuarios";
+		}
+		
+	}
+	
 	@RequestMapping(value = "usuario", method = RequestMethod.POST)
 	public String saveUsuario(@Valid @ModelAttribute("usuario") UsuarioModel usuario, BindingResult bindingResult, Model model){//UsuarioModel usuario) {
 		try {
@@ -58,6 +67,8 @@ public class UsuarioController {
 	public String deleteUsuario(@PathVariable String username, Model model) {
 		try {
 			usuarioService.deleteUsuario(username);
+			Iterable<UsuarioModel> usuarios = usuarioService.listAllUsuarios();
+			model.addAttribute("usuarios", usuarios);
 			model.addAttribute("resultado", 1);
 			model.addAttribute("resMsj", "Usuario eliminado con éxito.");
 		} catch (SaveWaagException ex) {
@@ -66,4 +77,5 @@ public class UsuarioController {
 		}
 		return "redirect:/usuarios";
 	}
+	
 }

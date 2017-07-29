@@ -95,4 +95,13 @@ public class UsuarioService implements UserDetailsService{
 		else
 			usuarioRepository.delete(usuario);
 	}
+	
+	public UsuarioModel getUsuario(String username) throws SaveWaagException{
+		Usuario usuario = usuarioRepository.findByUsername(username);
+		if (usuario == null ){
+			throw new SaveWaagException("El usuario "+username+" no se encuentra.");
+		}
+		else
+			return usuarioConverter.convertUsuarioToUsuarioModel(usuario);
+	}
 }

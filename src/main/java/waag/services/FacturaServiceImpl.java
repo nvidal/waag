@@ -75,4 +75,8 @@ public class FacturaServiceImpl implements FacturaService {
 		Page<FacturaModel> models = facturas.map(facturaConverter);
 		return models;
 	}
+	
+	public List<Factura> getUltimasFacturas(){
+		return facturaRepository.findTop10ByOrderByFechaDesc();
+	}
 }

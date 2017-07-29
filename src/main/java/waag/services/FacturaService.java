@@ -1,8 +1,11 @@
 package waag.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import waag.domain.entidades.Factura;
 import waag.domain.model.FacturaModel;
 import waag.exceptions.SaveWaagException;
 
@@ -16,4 +19,6 @@ public interface FacturaService {
 	boolean deleteFactura(Integer id);
 
 	Page<FacturaModel> getFacturasByPages(Pageable pageable);
+
+	List<Factura> getUltimasFacturas();
 }
