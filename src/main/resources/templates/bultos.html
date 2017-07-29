@@ -99,7 +99,7 @@
 					th:href="${'/bulto/delete/' + bulto.idbulto}">Eliminar</a></td>
 			</tr>
 		</table>
-		<div class="row">
+		<div class="row" th:if="${pager.endPage > 0}">
 	        <div th:if="${bultos.totalPages != 1}" class="form-group col-md-11 pagination-centered text-center">
 				<ul class="pagination">
 					<li th:class="${bultos.number == 0} ? disabled">

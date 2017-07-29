@@ -29,7 +29,7 @@
                 <td th:text="${factura.descripcion} ? ${factura.descripcion.descripcion}">descripcion</td>
             </tr>
         </table>
-        <div class="row" th:if="${not #lists.isEmpty(facturas)}">
+        <div class="row" th:if="${pager.endPage > 0}">
 	        <div th:if="${facturas.totalPages != 1}" class="form-group col-md-11 pagination-centered text-center">
 				<ul class="pagination">
 					<li th:class="${facturas.number == 0} ? disabled">
