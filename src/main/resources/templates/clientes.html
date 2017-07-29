@@ -163,7 +163,7 @@
 					th:href="${'/cliente/delete/' + cliente.idcliente}">Eliminar</a></td>
 			</tr>
 		</table>
-		<div class="row">
+		<div class="row" th:if="${pager.endPage > 0}">
 	        <div th:if="${clientes.totalPages != 1}" class="form-group col-md-11 pagination-centered text-center">
 				<ul class="pagination">
 					<li th:class="${clientes.number == 0} ? disabled">
