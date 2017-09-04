@@ -37,16 +37,13 @@ public class UsuarioController {
 	
 	@RequestMapping(value = "/usuario/{username}", method = RequestMethod.GET)
 	public String getUsuario(@PathVariable String username, Model model) {
-		try {
 			UsuarioModel usuario = usuarioService.getUsuario(username);
+			if (usuario == null){
+				model.addAttribute("resMsj", "No se encontró el usuario "+username);
+				return "redirect:/usuarios";
+			}
 			model.addAttribute("usuario", usuario);
-			return "usuarios :: modalEdit";
-		} catch (SaveWaagException e) {
-			model.addAttribute("resultado", 0);
-			model.addAttribute("resMsj", e.getMessage());
-			return "redirect:/usuarios";
-		}
-		
+			return "usuarios :: modalEdit";	
 	}
 	
 	@RequestMapping(value = "usuario", method = RequestMethod.POST)
@@ -54,10 +51,10 @@ public class UsuarioController {
 		try {
 			usuario.setEnable(true);
 			usuarioService.saveUsuario(usuario);
-			model.addAttribute("resultado", 1);
+			model.addAttribute("resultado", "OK");
 			model.addAttribute("resMsj", "Usuario creado con éxito.");
 		} catch (SaveWaagException ex) {
-			model.addAttribute("resultado", 0);
+			model.addAttribute("resultado", "ERROR");
 			model.addAttribute("resMsj", ex.getMessage());
 		}
 		return "redirect:/usuarios";

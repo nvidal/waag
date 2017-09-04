@@ -3,6 +3,8 @@ package waag.domain.entidades;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * The persistent class for the comisionistas database table.
  * 
@@ -31,6 +33,7 @@ public class Comisionista implements Serializable {
 		this.idcomisionista = idcomisionista;
 	}
 
+	@NotBlank(message = "Ingresa un nombre")
 	public String getComisionista() {
 		return this.comisionista;
 	}

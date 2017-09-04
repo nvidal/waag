@@ -3,6 +3,8 @@ package waag.domain.entidades;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * The persistent class for the receptorias database table.
  * 
@@ -31,6 +33,7 @@ public class Receptoria implements Serializable {
 		this.idreceptoria = idreceptoria;
 	}
 
+	@NotBlank(message = "Ingresa un nombre")
 	public String getReceptoria() {
 		return this.receptoria;
 	}

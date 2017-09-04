@@ -30,7 +30,7 @@ public class FacturaServiceImpl implements FacturaService {
 	@Override
 	public Iterable<FacturaModel> listAllFacturas() {
 		LOG.info("listAllFacturas");
-		Iterable<Factura> facturas = facturaRepository.findAll();
+		Iterable<Factura> facturas = facturaRepository.findAllByOrderByFechaDesc();
 		List<FacturaModel> models = new ArrayList<FacturaModel>();
 		for(Factura f : facturas){
 			models.add(facturaConverter.convertFacturaToFacturaModel(f));
@@ -71,7 +71,7 @@ public class FacturaServiceImpl implements FacturaService {
 	@Override
 	public Page<FacturaModel> getFacturasByPages(Pageable pageable) {
 		LOG.info("getFacturasByPages");
-		Page<Factura> facturas = facturaRepository.findAll(pageable);
+		Page<Factura> facturas = facturaRepository.findAllByOrderByFechaDesc(pageable);
 		Page<FacturaModel> models = facturas.map(facturaConverter);
 		return models;
 	}

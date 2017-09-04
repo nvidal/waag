@@ -54,6 +54,8 @@
 						<ul class="nav navbar-nav navbar-right">
 							<li><a href="#" th:href="@{/login}"
 								sec:authorize="!isAuthenticated()">Ingresar</a></li>
+							<li><a href="#" th:href="@{/registrar}"
+								sec:authorize="!isAuthenticated()">Registrarse</a></li>
 							<li>
 								<!-- a href="#" th:href="@{/logout}" sec:authorize="isAuthenticated()">Cerrar Sesión</a-->
 								<form class="navbar-form navbar-right" th:action="@{/logout}"

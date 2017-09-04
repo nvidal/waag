@@ -3,6 +3,8 @@ package waag.domain.entidades;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * The persistent class for the marcas database table.
  * 
@@ -31,6 +33,8 @@ public class Marca implements Serializable {
 		this.idmarca = idmarca;
 	}
 
+	@NotBlank(message = "Ingresa una marca")
+	@Column(nullable=false)
 	public String getMarca() {
 		return this.marca;
 	}

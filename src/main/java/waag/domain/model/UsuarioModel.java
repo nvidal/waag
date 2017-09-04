@@ -3,19 +3,22 @@ package waag.domain.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import waag.domain.usuario.EnumRoles;
 
 public class UsuarioModel {
 
-	@NotNull
-	@Size(min=1)
+	@NotBlank(message = "Ingresa un nombre")
 	private String username;
-	@NotNull
-	@Size(min=1)
+	@NotBlank(message = "Ingresa un password")
+	@Size(min=6, message="El password es muy corto")
 	private String password;
+	@NotBlank(message = "Ingresa un email")
 	private String email;
 	private boolean enable;
 	private Set<EnumRoles> roles = new HashSet<EnumRoles>();

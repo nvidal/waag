@@ -46,11 +46,11 @@ public class CRUDServiceImpl implements CRUDService {
 	// +++ DESTINO +++
 	@Override
 	public Iterable<Destino> listAllDestinos() {
-		return destinoRepository.findAll();
+		return destinoRepository.findAllByOrderByCiudadAsc();
 	}
 	@Override
 	public Page<Destino> listAllDestinosByPage(Pageable pageable) {
-		return destinoRepository.findAll(pageable);
+		return destinoRepository.findAllByOrderByCiudadAsc(pageable);
 	}
 	@Override
 	public Destino getDestinoById(Integer id) {
@@ -68,11 +68,11 @@ public class CRUDServiceImpl implements CRUDService {
 	// +++ BUQUE +++
 	@Override
 	public Iterable<Buque> listAllBuques() {
-		return buqueRepository.findAll();
+		return buqueRepository.findAllByOrderByNombreAsc();
 	}
 	@Override
 	public Page<Buque> listAllBuquesByPage(Pageable pageable) {
-		return buqueRepository.findAll(pageable);
+		return buqueRepository.findAllByOrderByNombreAsc(pageable);
 	}
 	@Override
 	public Buque getBuqueById(Integer id) {
@@ -90,11 +90,11 @@ public class CRUDServiceImpl implements CRUDService {
 	// +++ BULTO +++
 	@Override
 	public Iterable<Bulto> listAllBultos() {
-		return bultoRepository.findAll();
+		return bultoRepository.findAllByOrderByTipoAsc();
 	}
 	@Override
 	public Page<Bulto> listAllBultosByPage(Pageable pageable) {
-		return bultoRepository.findAll(pageable);
+		return bultoRepository.findAllByOrderByTipoAsc(pageable);
 	}
 	@Override
 	public Bulto getBultoById(Integer id) {
@@ -112,11 +112,11 @@ public class CRUDServiceImpl implements CRUDService {
 	// +++ CLIENTE +++
 	@Override
 	public Iterable<Cliente> listAllClientes() {
-		return clienteRepository.findAll();
+		return clienteRepository.findAllByOrderByExportadorAsc();
 	}
 	@Override
 	public Page<Cliente> listAllClientesByPage(Pageable pageable) {
-		return clienteRepository.findAll(pageable);
+		return clienteRepository.findAllByOrderByExportadorAsc(pageable);
 	}
 	@Override
 	public Cliente getClienteById(Integer id) {
@@ -134,11 +134,11 @@ public class CRUDServiceImpl implements CRUDService {
 	// +++ COMISIONISTA +++
 	@Override
 	public Iterable<Comisionista> listAllComisionistas() {
-		return comisionistaRepository.findAll();
+		return comisionistaRepository.findAllByOrderByComisionistaAsc();
 	}
 	@Override
 	public Page<Comisionista> listAllComisionistasByPage(Pageable pageable) {
-		return comisionistaRepository.findAll(pageable);
+		return comisionistaRepository.findAllByOrderByComisionistaAsc(pageable);
 	}
 
 	@Override
@@ -158,8 +158,12 @@ public class CRUDServiceImpl implements CRUDService {
 	
 	// +++ COMPVEND +++
 	public Iterable<Compvend> listAllCompvends() {
-		return compvendRepository.findAll();
+		return compvendRepository.findAllByOrderByClienteAsc();
 	}
+	public Page<Compvend> listAllCompvendsByPage(Pageable pageable) {
+		return compvendRepository.findAllByOrderByClienteAsc(pageable);
+	}
+	
 	public Compvend getCompvendById(Integer id) {
 		return compvendRepository.findOne(id);
 	}
@@ -172,7 +176,10 @@ public class CRUDServiceImpl implements CRUDService {
 	
 	// +++ OPERACION +++
 	public Iterable<Operacion> listAllOperaciones() {
-		return operacionRepository.findAll();
+		return operacionRepository.findAllByOrderByOperacionAsc();
+	}
+	public Page<Operacion> listAllOperacionesByPage(Pageable pageable) {
+		return operacionRepository.findAllByOrderByOperacionAsc(pageable);
 	}
 	public Operacion getOperacionById(Integer id) {
 		return operacionRepository.findOne(id);

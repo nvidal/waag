@@ -1,7 +1,12 @@
 package waag.domain.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.*;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * The persistent class for the destinos database table.
@@ -27,6 +32,8 @@ public class Destino implements Serializable {
 	private String formulaa;
 
 	private String pais;
+	
+	private Date fechaBaja;
 
 	public Destino() {
 	}
@@ -38,7 +45,8 @@ public class Destino implements Serializable {
 	public void setIddestino(Integer iddestino) {
 		this.iddestino = iddestino;
 	}
-
+	@NotBlank(message = "Ingresa una ciudad")
+	@Column(nullable=false)
 	public String getCiudad() {
 		return this.ciudad;
 	}
@@ -71,6 +79,7 @@ public class Destino implements Serializable {
 		this.formulaa = formulaa;
 	}
 
+	@NotBlank(message = "Ingresa un pais")
 	public String getPais() {
 		return this.pais;
 	}
@@ -79,4 +88,12 @@ public class Destino implements Serializable {
 		this.pais = pais;
 	}
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	public Date getFechaBaja() {
+		return fechaBaja;
+	}
+
+	public void setFechaBaja(Date fechaBaja) {
+		this.fechaBaja = fechaBaja;
+	}
 }

@@ -3,6 +3,8 @@ package waag.domain.entidades;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * The persistent class for the compvend database table.
  * 
@@ -38,6 +40,7 @@ public class Compvend implements Serializable {
 		this.idcompvend = idcompvend;
 	}
 
+	@NotBlank(message = "Ingresa un nombre de cliente")
 	public String getCliente() {
 		return this.cliente;
 	}

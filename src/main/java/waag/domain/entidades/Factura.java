@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
@@ -28,11 +29,11 @@ public class Factura implements Serializable {
 
 	private Timestamp eta;
 
-	@NotNull
+	@NotBlank(message = "Ingresa el numero de factura")
 	@Column(name="factura", nullable=false)
 	private String facturaNro;
 
-	@NotNull
+	@NotBlank(message = "Ingresa la fecha de la factura")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fecha;
 

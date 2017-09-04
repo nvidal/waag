@@ -1,7 +1,14 @@
 package waag.domain.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * The persistent class for the buques database table.
@@ -20,6 +27,8 @@ public class Buque implements Serializable {
 
 	@Column(name = "buque")
 	private String nombre;
+	
+	private Date fechaBaja;
 
 	public Buque() {
 	}
@@ -32,12 +41,23 @@ public class Buque implements Serializable {
 		this.idbuque = idbuque;
 	}
 
+	@NotBlank(message = "Ingresa un nombre")
+	@Column(nullable=false)
 	public String getNombre() {
 		return this.nombre;
 	}
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	public Date getFechaBaja() {
+		return fechaBaja;
+	}
+
+	public void setFechaBaja(Date fechaBaja) {
+		this.fechaBaja = fechaBaja;
 	}
 
 }

@@ -3,6 +3,8 @@ package waag.domain.entidades;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * The persistent class for the unidadcomercial database table.
  * 
@@ -50,6 +52,7 @@ public class Unidadcomercial implements Serializable {
 		this.codmgap = codmgap;
 	}
 
+	@NotBlank(message = "Ingresa un nombre")
 	public String getUnidadcomercial() {
 		return this.unidadcomercial;
 	}

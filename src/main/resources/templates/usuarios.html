@@ -68,13 +68,15 @@
 				<tr>
 					<th>Username</th>
 					<th>Email</th>
+					<th>Roles</th>
 					<!-- th>Habilitado</th>
 				<th sec:authorize="hasRole('ROLE_ADMIN')">Editar</th> -->
-					<th sec:authorize="hasRole('ROLE_ADMIN')">Accion</th>
+					<th sec:authorize="hasRole('ROLE_ADMIN')">Acciones</th>
 				</tr>
 				<tr th:each="usuario : ${usuarios}">
 					<td th:text="${usuario.username}">Username</td>
 					<td th:text="${usuario.email}">Email</td>
+					<td>Roles..</td>
 					<!-- td th:text="${usuario.enable}">Enable</td> -->
 					<!-- td sec:authorize="hasRole('ROLE_ADMIN')">
 					<button th:onclick="'javascript:editUser(\'' + ${usuario.username} + '\')'">Editar</button>
@@ -82,7 +84,11 @@
 					<td sec:authorize="hasRole('ROLE_ADMIN')">
 						<button
 							th:onclick="'javascript:deleteUser(\'' + ${usuario.username} + '\')'">
-							<span class="glyphicon glyphicon-trash"></span>
+							<span class="glyphicon glyphicon-edit"></span>
+						</button>
+						<button
+							th:onclick="'javascript:deleteUser(\'' + ${usuario.username} + '\')'">
+							<span class="glyphicon glyphicon-ban-circle"></span>
 						</button>
 					</td>
 				</tr>
@@ -90,13 +96,13 @@
 
 			<div id="msjBtn" class="text-center row">
 
-				<button type="button" class="btn btn-success btn-lg"
+				<!-- button type="button" class="btn btn-success btn-lg"
 					data-toggle="modal" data-target="#modalCrear">Crear
-					usuario</button>
+					usuario</button-->
 
-				<div id="msjExito" th:if="${resultado == 1 || resultado != null}"
+				<div id="msjExito" th:if="${resultado == 'OK'}"
 					class="alert alert-success" role="alert" th:text="${resMsj}"></div>
-				<div id="msjError" th:if="${resultado == 0}"
+				<div id="msjError" th:if="${resultado != null}"
 					class="alert alert-danger" role="alert" th:text="${resMsj}"></div>
 			</div>
 		</div>
@@ -104,7 +110,7 @@
 
 	<script>
 		/*<![CDATA[*/
-		function deleteUser(username) {
+		/*function deleteUser(username) {
 			var r = confirm("Se va a eliminar el usuario " + username);
 
 			if (r == true) {
@@ -119,7 +125,7 @@
 					}
 				});
 			}
-		}
+		}*/
 		function editUser(username) {
 			$.ajax({
 				type : "GET",

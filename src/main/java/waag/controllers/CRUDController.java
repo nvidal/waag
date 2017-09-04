@@ -1,5 +1,9 @@
 package waag.controllers;
 
+import java.util.Date;
+
+import javax.validation.Valid;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +26,7 @@ import waag.domain.entidades.Cliente;
 import waag.domain.entidades.Comisionista;
 import waag.domain.entidades.Destino;
 import waag.domain.entidades.Factura;
+import waag.domain.model.FacturaModel;
 import waag.services.CRUDService;
 
 @Controller
@@ -41,7 +49,7 @@ public class CRUDController {
 		model.addAttribute("destinos", pages);
 		model.addAttribute("pager", pager);
 		model.addAttribute("destino", new Destino());
-		return "destinos";
+		return ViewConstant.DESTINOS;
 	}
 	@RequestMapping(value = "/destinos/{page}", method = RequestMethod.GET)
 	public String listDestinosByPage(@PathVariable Integer page, Model model) {
@@ -52,33 +60,30 @@ public class CRUDController {
 		model.addAttribute("destinos", pages);
 		model.addAttribute("pager", pager);
 		model.addAttribute("destino", new Destino());
-		return "destinos";
+		return ViewConstant.DESTINOS;
 	}
 	@RequestMapping("destino/{id}")
 	public String showDestino(@PathVariable Integer id, Model model) {
 		model.addAttribute("destino", crudService.getDestinoById(id));
-		return "verDestino";
-	}
-	@RequestMapping("destino/edit/{id}")
-	public String editDestino(@PathVariable Integer id, Model model) {
-		model.addAttribute("destino", crudService.getDestinoById(id));
-		return "formDestino";
-	}
-	@RequestMapping("destino/new")
-	public String newDestino(Model model) {
-		model.addAttribute("destino", new Destino());
-		return "formDestino";
+		return ViewConstant.DESTINOS+ " :: modalEdit";
 	}
 	@RequestMapping(value = "destino", method = RequestMethod.POST)
-	public String saveDestino(Destino destino) {
+	public String saveDestino(@Valid @ModelAttribute("destino") Destino destino, BindingResult bindingResult, Model model) {
+		if(bindingResult.hasErrors()){
+			LOG.error("Errores al crear destino");
+			for(ObjectError o : bindingResult.getAllErrors()){
+				LOG.error("> "+o.getObjectName()+" "+o.getDefaultMessage());
+			}
+			//TODO
+			return "redirect:/"+ViewConstant.DESTINOS;
+		}
 		crudService.saveDestino(destino);
-		// return "redirect:/destino/" + destino.getId();
-		return "redirect:/destinos";
+		return "redirect:/"+ViewConstant.DESTINOS;
 	}
 	@RequestMapping("destino/delete/{id}")
 	public String deleteDestino(@PathVariable Integer id) {
 		crudService.deleteDestino(id);
-		return "redirect:/destinos";
+		return "redirect:/"+ViewConstant.DESTINOS;
 	}
 
 	// +++ BUQUE +++
@@ -106,22 +111,19 @@ public class CRUDController {
 	@RequestMapping("buque/{id}")
 	public String showBuque(@PathVariable Integer id, Model model) {
 		model.addAttribute("buque", crudService.getBuqueById(id));
-		return "verBuque";
-	}
-	@RequestMapping("buque/edit/{id}")
-	public String editBuque(@PathVariable Integer id, Model model) {
-		model.addAttribute("buque", crudService.getBuqueById(id));
-		return "formBuque";
-	}
-	@RequestMapping("buque/new")
-	public String newBuque(Model model) {
-		model.addAttribute("buque", new Buque());
-		return "formBuque";
+		return "buques :: modalEdit";
 	}
 	@RequestMapping(value = "buque", method = RequestMethod.POST)
-	public String saveBuque(Buque buque) {
+	public String saveBuque(@Valid @ModelAttribute("buque") Buque buque, BindingResult bindingResult, Model model) {
+		if(bindingResult.hasErrors()){
+			LOG.error("Errores al crear buque");
+			for(ObjectError o : bindingResult.getAllErrors()){
+				LOG.error("> "+o.getObjectName()+" "+o.getDefaultMessage());
+			}
+			//TODO
+			return ViewConstant.BUQUES;
+		}
 		crudService.saveBuque(buque);
-		// return "redirect:/destino/" + destino.getId();
 		return "redirect:/buques";
 	}
 	@RequestMapping("buque/delete/{id}")
@@ -157,27 +159,20 @@ public class CRUDController {
 	@RequestMapping("bulto/{id}")
 	public String showBulto(@PathVariable Integer id, Model model) {
 		model.addAttribute("bulto", crudService.getBultoById(id));
-		return "verBulto";
-	}
-	@RequestMapping("bulto/edit/{id}")
-	public String editBulto(@PathVariable Integer id, Model model) {
-		model.addAttribute("bulto", crudService.getBultoById(id));
-		return "formBulto";
-	}
-	@RequestMapping(value = "bulto", method = RequestMethod.PUT)
-	public String editBulto(Bulto bulto) {
-		crudService.saveBulto(bulto);
-		return "redirect:/bultos";
-	}
-	@RequestMapping("bulto/new")
-	public String newBulto(Model model) {
-		model.addAttribute("bulto", new Bulto());
-		return "formBulto";
+		return "bultos :: modalEdit";
 	}
 	@RequestMapping(value = "bulto", method = RequestMethod.POST)
-	public String saveBulto(Bulto bulto) {
+	public String saveBulto(@Valid @ModelAttribute("bulto") Bulto bulto, BindingResult bindingResult, Model model) {
+		if(bindingResult.hasErrors()){
+			LOG.error("Errores al crear bulto");
+			for(ObjectError o : bindingResult.getAllErrors()){
+				LOG.error("> "+o.getObjectName()+" "+o.getDefaultMessage());
+			}
+			//TODO
+			return "redirect:/"+ViewConstant.BULTOS;
+		}
+		
 		crudService.saveBulto(bulto);
-		// return "redirect:/destino/" + destino.getId();
 		return "redirect:/bultos";
 	}
 	@RequestMapping("bulto/delete/{id}")
@@ -196,7 +191,7 @@ public class CRUDController {
 		model.addAttribute("clientes", pages);
 		model.addAttribute("pager", pager);
 		model.addAttribute("cliente", new Cliente());
-		return "clientes";
+		return ViewConstant.CLIENTES;
 	}
 	@RequestMapping(value = "/clientes/{page}", method = RequestMethod.GET)
 	public String listClientesByPage(@PathVariable Integer page, Model model) {
@@ -208,28 +203,30 @@ public class CRUDController {
 		model.addAttribute("clientes", pages);
 		model.addAttribute("pager", pager);
 		model.addAttribute("cliente", new Cliente());
-		return "clientes";
+		return ViewConstant.CLIENTES;
 	}
 	@RequestMapping(value = "cliente", method = RequestMethod.POST)
-	public String saveCliente(Cliente cliente) {
+	public String saveCliente(@Valid @ModelAttribute("cliente") Cliente cliente, BindingResult bindingResult, Model model) {
+		if(bindingResult.hasErrors()){
+			LOG.error("Errores al crear cliente");
+			for(ObjectError o : bindingResult.getAllErrors()){
+				LOG.error("> "+o.getObjectName()+" "+o.getDefaultMessage());
+			}
+			//TODO
+			return "redirect:/"+ViewConstant.CLIENTES;
+		}
 		crudService.saveCliente(cliente);
-		// return "redirect:/destino/" + destino.getId();
-		return "redirect:/clientes";
-	}
-	@RequestMapping("cliente/delete/{id}")
-	public String deleteCliente(@PathVariable Integer id) {
-		crudService.deleteCliente(id);
-		return "redirect:/clientes";
+		return "redirect:/"+ViewConstant.CLIENTES;
 	}
 	@RequestMapping("cliente/{id}")
 	public String showCliente(@PathVariable Integer id, Model model) {
 		model.addAttribute("cliente", crudService.getClienteById(id));
-		return "verCliente";
+		return ViewConstant.CLIENTES+" :: modalEdit";
 	}
-	@RequestMapping("cliente/edit/{id}")
-	public String editCliente(@PathVariable Integer id, Model model) {
-		model.addAttribute("cliente", crudService.getClienteById(id));
-		return "formCliente";
+	@RequestMapping("cliente/delete/{id}")
+	public String deleteCliente(@PathVariable Integer id) {
+		crudService.deleteCliente(id);
+		return "redirect:/"+ViewConstant.CLIENTES;
 	}
 
 	// +++ COMISIONISTA +++
@@ -241,7 +238,7 @@ public class CRUDController {
 		model.addAttribute("comisionistas", pages);
 		model.addAttribute("pager", pager);
 		model.addAttribute("comisionista", new Cliente());
-		return "comisionista";
+		return ViewConstant.COMISIONISTA;
 	}
 	@RequestMapping(value = "/comisionistas/{page}", method = RequestMethod.GET)
 	public String listComisionistasByPage(@PathVariable Integer page, Model model) {
@@ -252,27 +249,29 @@ public class CRUDController {
 		model.addAttribute("comisionistas", pages);
 		model.addAttribute("pager", pager);
 		model.addAttribute("comisionista", new Cliente());
-		return "comisionista";
+		return ViewConstant.COMISIONISTA;
 	}
 	@RequestMapping(value = "comisionista", method = RequestMethod.POST)
-	public String saveComisionista(Comisionista comisionista) {
+	public String saveComisionista(@Valid @ModelAttribute("comisionista") Comisionista comisionista, BindingResult bindingResult, Model model) {
+		if(bindingResult.hasErrors()){
+			LOG.error("Errores al crear comisionista");
+			for(ObjectError o : bindingResult.getAllErrors()){
+				LOG.error("> "+o.getObjectName()+" "+o.getDefaultMessage());
+			}
+			//TODO
+			return "redirect:/"+ViewConstant.COMISIONISTA;
+		}
 		crudService.saveComisionista(comisionista);
-		// return "redirect:/destino/" + destino.getId();
-		return "redirect:/comisionistas";
-	}
-	@RequestMapping("comisionista/delete/{id}")
-	public String deleteComisionista(@PathVariable Integer id) {
-		crudService.deleteComisionista(id);
-		return "redirect:/comisionistas";
+		return "redirect:/"+ViewConstant.COMISIONISTA;
 	}
 	@RequestMapping("comisionista/{id}")
 	public String showComisionista(@PathVariable Integer id, Model model) {
 		model.addAttribute("comisionista", crudService.getComisionistaById(id));
-		return "verComisionista";
+		return ViewConstant.COMISIONISTA+" :: modalEdit";
 	}
-	@RequestMapping("comisionista/edit/{id}")
-	public String editComisionista(@PathVariable Integer id, Model model) {
-		model.addAttribute("comisionista", crudService.getComisionistaById(id));
-		return "formComisionista";
+	@RequestMapping("comisionista/delete/{id}")
+	public String deleteComisionista(@PathVariable Integer id) {
+		crudService.deleteComisionista(id);
+		return "redirect:/"+ViewConstant.COMISIONISTA;
 	}
 }

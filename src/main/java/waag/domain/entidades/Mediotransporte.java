@@ -3,6 +3,8 @@ package waag.domain.entidades;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * The persistent class for the mediotransporte database table.
  * 
@@ -40,6 +42,7 @@ public class Mediotransporte implements Serializable {
 		this.ingles = ingles;
 	}
 
+	@NotBlank(message = "Ingresa un nombre")
 	public String getMedio() {
 		return this.medio;
 	}

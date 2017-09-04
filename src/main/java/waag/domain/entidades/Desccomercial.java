@@ -3,6 +3,8 @@ package waag.domain.entidades;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * The persistent class for the desccomercial database table.
  * 
@@ -30,6 +32,7 @@ public class Desccomercial implements Serializable {
 		this.iddescripcion = iddescripcion;
 	}
 
+	@NotBlank(message = "Ingresa una descripcion")
 	public String getDescripcion() {
 		return this.descripcion;
 	}

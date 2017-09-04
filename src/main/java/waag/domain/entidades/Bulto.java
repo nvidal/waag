@@ -1,7 +1,14 @@
 package waag.domain.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * The persistent class for the bultos database table.
@@ -23,6 +30,8 @@ public class Bulto implements Serializable {
 	private String bultosaman;
 
 	private String tipo;
+	
+	private Date fechaBaja;
 
 	public Bulto() {
 	}
@@ -50,13 +59,22 @@ public class Bulto implements Serializable {
 	public void setBultosaman(String bultosaman) {
 		this.bultosaman = bultosaman;
 	}
-
+	@NotBlank(message = "Ingresa un tipo")
+	@Column(nullable=false)
 	public String getTipo() {
 		return this.tipo;
 	}
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	public Date getFechaBaja() {
+		return fechaBaja;
+	}
+
+	public void setFechaBaja(Date fechaBaja) {
+		this.fechaBaja = fechaBaja;
 	}
 
 }

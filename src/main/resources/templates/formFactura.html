@@ -38,36 +38,89 @@
 		</div>
 
 
-		<div class="col-sm-8 col-sm-offset-2">
+	<div class="col-sm-12">
         <form class="form-horizontal" th:object="${factura}" th:action="@{/factura}" method="post">
+   
             <input type="hidden" th:field="*{id}"/>
-            <div class="form-group">
-			 	<label class="control-label" id="factura">Nro Factura</label>
-				<input type="text" class="form-control" th:field="*{facturaNro}"/>
-				<div th:if="${#fields.hasErrors('facturaNro')}" th:errors="*{facturaNro}" style="color: #f00;">Factura Error</div>
-			</div>
-			<div class="form-group">
-                <label class="control-label">Fecha:</label>
-                <input type="date" class="datepicker" th:field="*{fecha}"/>
-                <div th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}" style="color: #f00;">Fecha Error</div>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Operación:</label>
-                <select class="form-control" id="selOperacion" th:field="*{operacion.codigo}">
-				    <option th:each="op :${operaciones}" th:value="${op.codigo}" th:text="${op.operacion}">operacion</option>
-				  </select>
-            </div>
-			<div class="form-group">
-			  <label for="selCliente">Cliente:</label>
-			  <select class="form-control" id="selCliente" th:field="*{cliente.idcliente}">
-			    <option th:each="cli :${clientes}" th:value="${cli.idcliente}" th:text="${cli.exportador}">cliente</option>
-			  </select>
-			</div>
-			<div class="form-group">
-			  <label for="selCliente">Comp/Vend:</label>
-			  <select class="form-control" id="selCompVend" th:field="*{compvend.idcompvend}">
-			    <option th:each="cv :${compvends}" th:value="${cv.idcompvend}" th:text="${cv.cliente}">cliente</option>
-			  </select>
+           
+           <div class="row">
+           	<!-- PRIMERA COLUMNA -->
+	            <div class="col-md-6">
+		            <div class="form-group">
+					 	<label class="col-sm-3 control-label" id="factura">Nro Factura</label>
+					 	<div class="col-sm-9">
+							<input type="text" class="form-control" th:field="*{facturaNro}"/>
+						</div>
+						<p th:each="error : ${#fields.errors('facturaNro')}" th:errors="*{facturaNro}" style="color: #f00;">Validation error</p>
+					</div>
+					<div class="form-group">
+		                <label class="col-sm-3 control-label">Fecha:</label>
+		                <div class="col-sm-9">
+		               		<input type="date" class="form-control" th:field="*{fecha}"/>
+		                </div>
+		                <div th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}" style="color: #f00;">Fecha Error</div>
+		            </div>
+		            <div class="form-group">
+		                <label class="col-sm-3 control-label">Operación:</label>
+		                <div class="col-sm-9">
+			                <select class="form-control" id="selOperacion" th:field="*{operacion.codigo}">
+			                	<option th:value="-1">Selecciona una opcion</option>
+							    <option th:each="op :${operaciones}" th:value="${op.codigo}" th:text="${op.operacion}">operacion</option>
+						  	</select>
+					  	</div>
+		            </div>
+					<div class="form-group">
+					  	<label class="col-sm-3 control-label" for="selCliente">Cliente:</label>
+					  	<div class="col-sm-9">
+						  <select class="form-control" id="selCliente" th:field="*{cliente.idcliente}">
+						  	<option th:value="-1">Selecciona una opcion</option>
+						    <option th:each="cli :${clientes}" th:value="${cli.idcliente}" th:text="${cli.exportador}">cliente</option>
+						  </select>
+						</div>	  
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label" for="selCliente">Comp/Vend:</label>
+						<div class="col-sm-9">
+						  <select class="form-control" id="selCompVend" th:field="*{compvend.idcompvend}">
+						  	<option th:value="-1">Selecciona una opcion</option>
+						    <option th:each="cv :${compvends}" th:value="${cv.idcompvend}" th:text="${cv.cliente}">cliente</option>
+						  </select>
+						</div>
+					</div>
+				</div>
+			
+			<!-- SEGUNDA COLUMNA -->
+				<div class="col-md-6">
+		            <div class="form-group">
+					 	<label class="control-label" id="mercaderia">Mercaderia</label>
+						<input type="text" class="form-control" th:field="*{facturaNro}"/>
+						<div th:if="${#fields.hasErrors('facturaNro')}" th:errors="*{facturaNro}" style="color: #f00;">Factura Error</div>
+					</div>
+					<div class="form-group">
+		                <label class="control-label">Valor FOB:</label>
+		                <input type="date" class="form-control" th:field="*{fecha}"/>
+		                <div th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}" style="color: #f00;">Fecha Error</div>
+		            </div>
+		            <div class="form-group">
+		                <label class="control-label">Marcas:</label>
+		                <select class="form-control" id="selMarcas" th:field="*{operacion.codigo}">
+		                	<option th:value="-1">Selecciona una opcion</option>
+						    <option th:each="op :${operaciones}" th:value="${op.codigo}" th:text="${op.operacion}">operacion</option>
+						  </select>
+		            </div>
+					<div class="form-group">
+					  <label for="selCliente">Bultos:</label>
+					  <input type="number" class="form-control" th:field="*{fecha}"/>
+		                <div th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}" style="color: #f00;">Fecha Error</div>
+					</div>
+					<div class="form-group">
+					  <label for="selCliente">Tipo bulto:</label>
+					  <select class="form-control" id="selBultos" th:field="*{compvend.idcompvend}">
+					  	<option th:value="-1">Selecciona una opcion</option>
+					    <option th:each="cv :${compvends}" th:value="${cv.idcompvend}" th:text="${cv.cliente}">cliente</option>
+					  </select>
+					</div>
+				</div>
 			</div>
 			
             <div class="text-center row">

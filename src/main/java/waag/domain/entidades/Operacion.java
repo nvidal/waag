@@ -3,6 +3,8 @@ package waag.domain.entidades;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * The persistent class for the operaciones database table.
  * 
@@ -30,7 +32,7 @@ public class Operacion implements Serializable {
 	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
 	}
-
+	@NotBlank(message = "Ingresa un nombre de operación")
 	public String getOperacion() {
 		return this.operacion;
 	}

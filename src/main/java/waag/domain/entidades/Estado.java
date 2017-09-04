@@ -3,6 +3,8 @@ package waag.domain.entidades;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * The persistent class for the estados database table.
  * 
@@ -31,6 +33,8 @@ public class Estado implements Serializable {
 		this.idestado = idestado;
 	}
 
+	@NotBlank(message = "Ingresa un nombre de estado")
+	@Column(nullable=false)
 	public String getEstado() {
 		return this.estado;
 	}

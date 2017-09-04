@@ -1,7 +1,12 @@
 package waag.domain.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.*;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * The persistent class for the clientes database table.
@@ -29,6 +34,8 @@ public class Cliente implements Serializable {
 	private String ruc;
 
 	private String tel;
+	
+	private Date fechaBaja;
 
 	public Cliente() {
 	}
@@ -49,6 +56,7 @@ public class Cliente implements Serializable {
 		this.direccion = direccion;
 	}
 
+	@NotBlank(message = "Ingresa un nombre")
 	public String getExportador() {
 		return this.exportador;
 	}
@@ -89,4 +97,12 @@ public class Cliente implements Serializable {
 		this.tel = tel;
 	}
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	public Date getFechaBaja() {
+		return fechaBaja;
+	}
+
+	public void setFechaBaja(Date fechaBaja) {
+		this.fechaBaja = fechaBaja;
+	}
 }

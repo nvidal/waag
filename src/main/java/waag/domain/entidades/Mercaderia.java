@@ -3,6 +3,8 @@ package waag.domain.entidades;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * The persistent class for the mercaderias database table.
  * 
@@ -71,6 +73,7 @@ public class Mercaderia implements Serializable {
 		this.glosaSa = glosaSa;
 	}
 
+	@NotBlank(message = "Ingresa mercaderia")
 	public String getMercaderia() {
 		return this.mercaderia;
 	}

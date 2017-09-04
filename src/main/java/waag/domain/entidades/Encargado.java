@@ -3,6 +3,8 @@ package waag.domain.entidades;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * The persistent class for the encargados database table.
  * 
@@ -41,6 +43,8 @@ public class Encargado implements Serializable {
 		this.iniciales = iniciales;
 	}
 
+	@NotBlank(message = "Ingresa un nombre")
+	@Column(nullable=false)
 	public String getNombre() {
 		return this.nombre;
 	}

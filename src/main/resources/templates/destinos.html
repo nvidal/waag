@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head lang="en">
+<head lang="es">
 
 <title>Destinos</title>
 
@@ -58,7 +58,7 @@
 									<input type="text" class="form-control" th:field="*{formulaa}" />
 								</div>
 							</div>
-							<div class="btn-group">
+							<div class="text-center row">
 								<button type="submit" class="btn btn-success">Confirmar</button>
 							</div>
 						</form>
@@ -70,37 +70,97 @@
 
 			</div>
 		</div>
+		
+		<!-- Modal Ver/Editar-->
+		<div id="modalHolder">
+			<div id="modalEditar" class="modal fade" role="dialog" th:fragment="modalEdit">
+				<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Editar destino</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" th:object="${destino}"
+							th:action="@{/destino}" method="post">
+							<input type="hidden" th:field="*{iddestino}" />
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Ciudad:</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" th:field="*{ciudad}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Pais:</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" th:field="*{pais}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Codigo:</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" th:field="*{codigo}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Codigo Aduana:</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" th:field="*{codaduana}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Formula A:</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" th:field="*{formulaa}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Fecha baja:</label>
+								<div class="col-sm-9">
+									<input type="date" class="form-control" th:field="*{fechaBaja}" />
+								</div>
+							</div>
+							<div class="text-center row">
+								<button type="submit" class="btn btn-success">Confirmar</button>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		</div>
 
 		<div class="col-sm-10">
 			<h2>Destinos registrados</h2>
 		</div>
 		<table class="table table-striped">
 			<tr>
-				<th>Id</th>
+				<th class="col-xs-1">Id</th>
 				<th>Ciudad</th>
 				<th>Pais</th>
-				<th>Código</th>
-				<th>Código Aduana</th>
-				<th sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">Ver</th>
-				<th sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
-				<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+				<th class="col-xs-1 text-center" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">Editar</th>
+				<th class="col-xs-1 text-center" sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
 			</tr>
 			<tr th:each="destino : ${destinos}">
-				<td th:text="${destino.iddestino}"><a href="/destino/${destino.iddestino}">Id</a></td>
-				<td th:text="${destino.ciudad}">Ciudad</td>
+				<td th:text="${destino.iddestino}">Id</td>
+				<td> <span th:text="${destino.ciudad}+' '">Ciudad</span><span th:if="${destino.fechaBaja != null}" class="glyphicon glyphicon-eye-close"></span></td>
 				<td th:text="${destino.pais}">Pais</td>
-				<td th:text="${destino.codigo}">Código</td>
-				<td th:text="${destino.codaduana}">Código Aduana</td>
-				<td sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a
-					th:href="${'/destino/' + destino.iddestino}">Ver</a></td>
-				<td sec:authorize="hasRole('ROLE_ADMIN')"><a
-					th:href="${'/destino/edit/' + destino.iddestino}">Editar</a></td>
-				<td sec:authorize="hasRole('ROLE_ADMIN')"><a
-					th:href="${'/destino/delete/' + destino.iddestino}">Eliminar</a></td>
+				<td class="text-center" sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+					<a th:onclick="'javascript:edit(\'' + ${destino.iddestino} + '\')'"><span class="glyphicon glyphicon-edit"></span></a>
+				</td>
+				<td class="text-center" sec:authorize="hasRole('ROLE_ADMIN')">
+					<a th:onclick="'javascript:deleteItem(\'' + ${destino.iddestino}+ '\', \'' +${destino.ciudad}+ '\')'"><span class="glyphicon glyphicon-trash"></span></a>
+				</td>
 			</tr>
 		</table>
 		<div class="row" th:if="${pager.endPage > 0}">
-	        <div th:if="${destinos.totalPages != 1}" class="form-group col-md-11 pagination-centered text-center">
+	        <div th:if="${destinos.totalPages != 1}" class="form-group col-md-12 pagination-centered text-center">
 				<ul class="pagination">
 					<li th:class="${destinos.number == 0} ? disabled">
 						<a class="pageLink" th:href="@{/destinos/1}">&laquo;</a>
@@ -124,5 +184,36 @@
 
 	</div>
 
+	<script>
+		/*<![CDATA[*/
+		function deleteItem(id, nombre) {
+			var r = confirm("Eliminar " +nombre);
+
+			if (r == true) {
+				$.ajax({
+					type : "GET",
+					url : "/destino/delete/" + id,
+					success : function(data) {
+						$("#content").html(data);
+					},
+					error : function(data) {
+						$("#content").html(data);
+					}
+				});
+			}
+		}
+		function edit(id) {
+			$.ajax({
+				type : "GET",
+				url : "/destino/" + id,
+				success : function(data) {
+					$("#modalHolder").html(data);
+					$("#modalEditar").modal("show");
+				}
+			});
+		}
+		/*]]>*/
+	</script>
+	
 </body>
 </html>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head lang="en">
+<head lang="es">
 
 <title>Buques</title>
 
 <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
 <body>
-	<div class="container">
+	<div id="content"  class="container">
 		<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
 
 
@@ -23,18 +23,18 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Agregar buques</h4>
+						<h4 class="modal-title">Agregar buque</h4>
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal" th:object="${buque}"
 							th:action="@{/buque}" method="post">
 							<div class="form-group">
-								<label class="col-sm-2 control-label">Nombre:</label>
-								<div class="col-sm-10">
+								<label class="col-sm-3 control-label">Nombre:</label>
+								<div class="col-sm-9">
 									<input type="text" class="form-control" th:field="*{nombre}" />
 								</div>
 							</div>
-							<div class="btn-group">
+							<div class="text-center row">
 								<button type="submit" class="btn btn-success">Confirmar</button>
 							</div>
 						</form>
@@ -46,31 +46,68 @@
 
 			</div>
 		</div>
+		<!-- Modal Ver/Editar-->
+		<div id="modalHolder">
+			<div id="modalEditar" class="modal fade" role="dialog" th:fragment="modalEdit">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Editar buque</h4>
+						</div>
+						<div class="modal-body">
+							<form class="form-horizontal" th:object="${buque}"
+								th:action="@{/buque}" method="post">
+								<input type="hidden" th:field="*{idbuque}" />
+								<div class="form-group">
+									<label class="col-sm-3 control-label">Nombre:</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" th:field="*{nombre}" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">Fecha baja:</label>
+									<div class="col-sm-9">
+										<input type="date" class="form-control" th:field="*{fechaBaja}" />
+									</div>
+								</div>
+								<div class="text-center row">
+									<button type="submit" class="btn btn-success">Confirmar</button>
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<div class="col-sm-10">
 			<h2>Listado de buques</h2>
 		</div>
 		<table class="table table-striped">
 			<tr>
-				<th>Id</th>
+				<th class="col-xs-1">Id</th>
 				<th>Nombre</th>
-				<th sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">Ver</th>
-				<th sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
-				<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+				<th class="col-xs-1 text-center" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">Editar</th>
+				<th class="col-xs-1 text-center" sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
 			</tr>
 			<tr th:each="buque : ${buques}">
-				<td th:text="${buque.idbuque}"><a href="/buque/${buque.idbuque}">Id</a></td>
-				<td th:text="${buque.nombre}">Nombre</td>
-				<td sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a
-					th:href="${'/buque/' + buque.idbuque}">Ver</a></td>
-				<td sec:authorize="hasRole('ROLE_ADMIN')"><a
-					th:href="${'/buque/edit/' + buque.idbuque}">Editar</a></td>
-				<td sec:authorize="hasRole('ROLE_ADMIN')"><a
-					th:href="${'/buque/delete/' + buque.idbuque}">Eliminar</a></td>
+				<td th:text="${buque.idbuque}">Id</td>
+				<td> <span th:text="${buque.nombre}+' '">Nombre</span><span th:if="${buque.fechaBaja != null}" class="glyphicon glyphicon-eye-close"></span></td>
+				<td class="text-center" sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+					<a th:onclick="'javascript:edit(\'' + ${buque.idbuque} + '\')'"><span class="glyphicon glyphicon-edit"></span></a>
+				</td>
+				<td class="text-center" sec:authorize="hasRole('ROLE_ADMIN')">
+					<a th:onclick="'javascript:deleteItem(\'' + ${buque.idbuque}+ '\', \'' +${buque.nombre}+ '\')'"><span class="glyphicon glyphicon-trash"></span></a>
+				</td>
 			</tr>
 		</table>
 		<div class="row" th:if="${pager.endPage > 0}">
-	        <div th:if="${buques.totalPages != 1}" class="form-group col-md-11 pagination-centered text-center">
+	        <div th:if="${buques.totalPages != 1}" class="form-group col-md-12 pagination-centered text-center">
 				<ul class="pagination">
 					<li th:class="${buques.number == 0} ? disabled">
 						<a class="pageLink" th:href="@{/buques/1}">&laquo;</a>
@@ -94,5 +131,35 @@
 
 	</div>
 
+	<script>
+		/*<![CDATA[*/
+		function deleteItem(id, nombre) {
+			var r = confirm("Eliminar " +nombre);
+
+			if (r == true) {
+				$.ajax({
+					type : "GET",
+					url : "/buque/delete/" + id,
+					success : function(data) {
+						$("#content").html(data);
+					},
+					error : function(data) {
+						$("#content").html(data);
+					}
+				});
+			}
+		}
+		function edit(id) {
+			$.ajax({
+				type : "GET",
+				url : "/buque/" + id,
+				success : function(data) {
+					$("#modalHolder").html(data);
+					$("#modalEditar").modal("show");
+				}
+			});
+		}
+		/*]]>*/
+	</script>
 </body>
 </html>

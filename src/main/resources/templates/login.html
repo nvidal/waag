@@ -37,12 +37,12 @@
 				<div class="panel panel-login">
 					<div class="panel-heading">
 						<div class="row">
-							<div class="col-xs-6">
-								<a href="#" class="active" id="login-form-link">Ingresar</a>
+							<div class="col-xs-12">
+								<h2>Ingresar</h2>
 							</div>
-							<div class="col-xs-6">
+							<!-- div class="col-xs-6">
 								<a href="#" id="register-form-link">Registrar</a>
-							</div>
+							</div> -->
 						</div>
 						<hr/>
 					</div>
@@ -70,39 +70,50 @@
 										role="alert">Usuario o contraseña incorrectos.</div>
 									<div th:if="${logout != null}" class="alert alert-info"
 										role="alert">Cerraste sesión correctamente.</div>
+									<div th:if="${msj != null}" class="alert alert-info"
+										role="alert" th:text="${msj}"></div>
 								</form>
-								<form id="register-form"  method="POST"
-									role="form" style="display: none;">
+								<!--<form id="register-form"  method="POST" th:fragment="register-form"
+									role="form" style="display:none;" th:action="@{/registrar}" th:object="${usuario}">
+									
 									<div class="form-group">
 										<input type="text" name="username" id="username" tabindex="1"
-											class="form-control" placeholder="Username" value=""/>
+											class="form-control" placeholder="Username" th:field="*{username}"/>
+										<div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: #f00;">Username Error</div>
+										<p th:each="error: ${#fields.errors('username')}" th:text="${error}">Validation error</p>
 									</div>
 									<div class="form-group">
-										<input type="email" name="email" id="email" tabindex="1"
-											class="form-control" placeholder="Email Address" value=""/>
+										<input type="email" name="email" id="email" tabindex="2"
+											class="form-control" placeholder="Email" th:field="*{email}"/>
+										<p th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation error</p>
 									</div>
 									<div class="form-group">
 										<input type="password" name="password" id="password"
-											tabindex="2" class="form-control" placeholder="Password"/>
+											tabindex="3" class="form-control" placeholder="Password" th:field="*{password}"/>
 									</div>
 									<div class="form-group">
 										<input type="password" name="confirm-password"
-											id="confirm-password" tabindex="2" class="form-control"
+											id="confirm-password" tabindex="4" class="form-control"
 											placeholder="Confirmación de password"/>
 									</div>
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3">
 												<input type="submit" name="register-submit"
-													id="register-submit" tabindex="4"
+													id="register-submit" tabindex="5"
 													class="form-control btn btn-register" value="Registrar"/>
 											</div>
 										</div>
 									</div>
-								</form>
+									<div th:if="${errorRegistro != null}" class="alert alert-danger"
+										role="alert" th:text="${msjRegistro}"></div>
+								</form> -->
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="text-center">
+					<a href="#" th:href="@{/registrar}">Registrarse</a>
 				</div>
 			</div>
 		</div>
